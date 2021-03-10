@@ -1,0 +1,65 @@
+.Edit-Toolbar {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* height: 10rem; */
+  width: 3.3rem;
+  top: 13rem;
+  right: 2rem;
+  padding: .3rem 0;
+  background-color: #1d273a;
+  border-radius: 1rem;
+  box-shadow: -.3rem .5rem 1.7rem rgba(103, 138, 80, 0.459);
+  z-index: 2;
+}
+
+.Show-History {
+  border-radius: 0 1rem 1rem 0;
+}
+.Show-History .History-List {
+  display: block;
+}
+
+.History-List {
+  display: none;
+  position: absolute;
+  color: rgb(216, 204, 204);
+  width: 9rem;
+  height: 100%;
+  top: 0;
+  right: calc(3.3rem - 20px);
+  padding: .4rem .4rem .4rem 0;
+  border-radius: 1rem 0 0 1rem;
+  background-color: #0f141f;
+  z-index: -10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  clip-path: inset(0 20px 0 0);
+}
+.History-List img {
+  position: absolute;
+  height: 2.2rem;
+  width: 2.2rem;
+  top: 0; right: 0; bottom: 0; left: 0;
+  padding: .5rem;
+  margin: auto;
+}
+.History-List img.hidden {
+  display: none;
+}
+
+.History-Entry {
+  /* text-align: left; */
+  padding: .4rem;
+}
+.History-Entry:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.144);
+  cursor: pointer;
+}
+
+.History-Entry h5 {
+  font-weight: 300;
+}

@@ -1,0 +1,17 @@
+.Navigation {
+	display: flex;
+	flex-shrink: 0;
+	position: relative;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	top: 0; left: 0;
+	height: 2.7rem;
+	width: 100%;
+
+	padding-top: .1rem;
+	padding-left: 1rem;
+
+	background-color: rgb(12, 36, 34);
+	z-index: 10;
+}

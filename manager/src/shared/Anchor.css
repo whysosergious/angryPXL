@@ -1,0 +1,19 @@
+.Anchor {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 1.7rem;
+	width: 1.7rem;
+	padding: 0rem;
+	margin-right: 2.7rem;
+
+	cursor: pointer;
+	/* background-color:#000; */
+}
+
+.Anchor img {
+	height: 100%;
+	width: 100%;
+}

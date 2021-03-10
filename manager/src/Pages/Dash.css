@@ -1,0 +1,120 @@
+.Page {
+	display: flex;
+
+	position: relative;
+	align-items: flex-start;
+	flex-direction: column;
+	justify-content: flex-start;
+	top: 0;
+	left: 0;
+	min-height: calc(100vh - 2.7rem);
+	width: 100%;
+	padding: 0 6rem 7rem 3rem;
+	/* padding-top: 2rem; */
+
+	background-color: rgb(253, 232, 232);
+	z-index: -1;
+	overflow-y: auto;
+}
+
+
+.Section-Group {
+	
+	display: block;
+	position: relative;
+	flex-shrink: 0;
+	width: 100%;
+	height: auto;
+	margin-bottom: 3rem;
+	box-shadow: .3rem .5rem 1.3rem rgba(118, 136, 106, 0.253);
+	overflow: hidden;
+	border-radius: 1rem;
+}
+
+.Entry-Group {
+	display: flex;
+	position: relative;
+	flex-shrink: 0;
+	/* min-height: 2rem; */
+	/* height: max-content; */
+	width: 100%;
+	padding: .7rem 0 .7rem .4rem;
+	border-bottom: .1rem solid rgb(240, 234, 234);
+	/* resize: vertical; */
+	/* overflow: auto; */
+	background-color: rgb(255, 255, 255);
+	
+}
+.Entry-Group:hover {
+	background: linear-gradient(0deg, rgb(239, 248, 246) 0%, rgb(245, 237, 237) 100%);
+}
+
+.Section-Heading {
+	display: flex;
+	text-align: left;
+	align-items: flex-start;
+	/* flex-shrink: 0; */
+	/* justify-content: flex-start; */
+	flex-direction: column;
+	width: 100%;
+	padding: 1.2rem 1rem .7rem 1rem;
+	background-color: rgb(29, 39, 58);
+}
+.Section-Heading h2 {
+	color: white;
+	width: 50%;
+}
+.Section-Heading h3 {
+	color: rgb(156, 169, 173);
+	width: 50%;
+}
+.Info-Row {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	padding: .2rem 0 .2rem .3rem;
+	background: linear-gradient(0deg, #ccd45c 0%, #b3e738 100%);
+	border-bottom: .1rem solid rgb(241, 234, 234);
+	color:rgb(50, 62, 65);
+}
+.Info-Row h3:nth-child(1) {
+	flex-shrink: 0;
+	width: calc(7rem + 3vw);
+}
+.Info-Row h3:nth-child(n+2) {
+	text-align: left;
+	width: 100%;
+}
+.Subheading {
+	text-align: left;
+	font-weight: 500;
+	width: 100%;
+	padding: .4rem 1rem;
+	/* background: rgb(250, 244, 244); */
+	border-bottom: .1rem solid rgb(245, 237, 237);
+	/* background: linear-gradient(0deg, rgba(184,244,232,1) 0%, rgba(255,255,255,1) 100%); */
+	color: rgb(50, 53, 30);
+}
+
+.Entry-Heading {
+	flex-shrink: 0;
+	font-size: .8rem;
+	font-weight: 600;
+	color:rgb(88, 102, 128);
+	width: calc(7rem + 3vw);
+	padding: .2rem 0;
+	/* background-color: rgb(156, 201, 201); */
+}
+
+.Input-Field {
+	padding: .2rem 2rem .2rem 0;
+	overflow: hidden;
+	width: 100%;
+	text-align: left;
+	color: rgb(88, 102, 128)
+}
+
+
+.lang2 {
+	display: none;
+}

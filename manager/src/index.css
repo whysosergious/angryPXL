@@ -1,0 +1,71 @@
+/* css global variables */
+:root {
+	--dark: #151a1c;
+	--light: #e9e9e9;
+	--acc: red;
+
+	/* typography colors */
+	--txt-dark: black;
+	--txt-light: white;
+	--txt-acc: #dc9457;
+	transform-style: preserve-3d;
+}
+
+:focus {
+	outline: none;
+}
+
+* {
+	text-decoration: none;
+	box-sizing: border-box;
+	
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+}
+
+html {
+	--vh: 1vh;
+
+	/* fixate viewport and prevent scroll */
+	/* ************** */
+	/* height: calc(100*var(--vh)); */
+	/* overflow: hidden; */
+}
+
+body {
+	position: relative;
+
+  	min-height: -webkit-fill-available;
+	font-family: 'Signika', sans-serif;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	/* background-color: #000; */
+	transform-style: preserve-3d;
+	z-index: 1;
+
+	/* height: 100vh; */
+
+	/* overflow: hidden; */
+}
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+a {
+	color: #fff;
+}
+
+#root {
+	/* height: 100vh; */
+	width: 100%;
+	overflow-x: hidden;
+	/* overflow-y: scroll; */
+
+	scroll-behavior: smooth;
+	/* perspective: 300px; */
+	/* transform-style: preserve-3d; */
+}
