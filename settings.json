@@ -3,5 +3,11 @@
   "active_app": "testapp",
   "available_apps": [
     "testapp"
-  ]
+  ],
+  "imgbit_config": {
+    "keep_ar": true,
+    "widths": [
+      1500, 1000, 500, 200
+    ]
+  }
 }

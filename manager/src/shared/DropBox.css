@@ -1,0 +1,25 @@
+.Drop-Box {
+  display: flex;
+  position: absolute;
+  height: 20%;
+  width: 55%;
+  top: 4%;
+  left: 0; right: 0;
+  margin: 0 auto;
+  border-radius: 2rem;
+  border: .17rem dashed rgb(200, 232, 236);
+  background-color: rgb(172, 255, 227);
+  transition: border .2s ease;
+  transition-property: border, background-color;
+  transition-duration: .44s, .1s;
+}
+.Drop-Box.highlight {
+  border: .18rem dashed rgb(139, 211, 219);
+  background-color: rgb(144, 247, 212);
+}
+.Drop-Box input[type=file] {
+  visibility: hidden;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}

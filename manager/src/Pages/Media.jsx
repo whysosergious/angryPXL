@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './Dash.css';
+import './Media.css';
 
 // components
-// import Section from 'shared/Section';
+import DropBox from 'shared/DropBox';
+
 
 const Media = () => {
 
 	return(
 		<section className="Page">
-			{/* <Section /> */}
+			<DropBox />
 		</section>
 	);
 }

@@ -50,6 +50,25 @@ const postData = async (dataObj) => {
   await response.text();
 }
 
+export const uploadFile = async file => {
+  let formData = new FormData();
+  formData.append( 'file', file );
+
+console.log(formData)
+  const response = await fetch(
+    `${ rootUrl }fs/fu.php`,
+    {
+      method: "POST",
+      // headers: {
+      //   'Content-Type': 'image/*',
+      // },
+      body: formData,
+    }
+  );
+
+  console.log(await response.text());
+}
+
 export const rollBackChanges = () => {
   _gc.textContent = JSON.parse(JSON.stringify(_gc.textBackup));
 }
