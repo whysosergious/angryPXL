@@ -1,0 +1,54 @@
+.Album {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .77rem;
+  width: 85%;
+}
+.Album .Image-Wrapper {
+  position: relative;
+  padding-bottom: 100%;
+  background-color: black;
+  overflow: hidden;
+}
+
+.Album img {
+  height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: -1;
+}
+
+.Album .Image-Wrapper h2 {
+  position: absolute;
+  top: 0; right: 0;
+  color: white;
+  font-size: 1rem;
+  line-height: 2rem;
+  height: 2rem;
+  width: 2rem;
+  margin: .4rem;
+  background-color: rgba(0, 0, 0, 0.514);
+  border-radius: .7rem;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .Album {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .Album {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .Album {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

@@ -31,7 +31,7 @@ export const fetchJSON = async (fileName, { fileExt='.json', backup=true } = {})
       } else {
         result = myJson;
       }
-    });
+    }).catch(err => { console.log(err) });
   return result;
 }
 
@@ -45,26 +45,22 @@ const postData = async (dataObj) => {
           },
       body: JSON.stringify(dataObj),
     }
-  );
+  ).catch(err => { console.log(err) });
 
   await response.text();
 }
 
-export const uploadFile = async file => {
-  let formData = new FormData();
-  formData.append( 'file', file );
-
-console.log(formData)
+export const uploadFiles = async file => {
+  // let formData = new FormData();
+  // formData.append( 'file', file );
+console.log(file);
   const response = await fetch(
     `${ rootUrl }fs/fu.php`,
     {
       method: "POST",
-      // headers: {
-      //   'Content-Type': 'image/*',
-      // },
-      body: formData,
+      body: JSON.stringify(file),
     }
-  );
+  ).catch(err => { console.log(err) });
 
   console.log(await response.text());
 }

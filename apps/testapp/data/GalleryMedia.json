@@ -12,7 +12,7 @@
       "description": "First image",
       "height": 1600,
       "width": 2400,
-      "formats": [
+      "resolutions": [
         {
           "file_name": "first-image-1500w",
           "file_size": "566545",

@@ -55,7 +55,10 @@ const revertContentChanges = () => {
   _gc.content.reload();
 }
 
-const EditToolbar = () => {
+
+
+
+const EditToolbar = ({ saveFiles }) => {
   const [ state, setState ] = useController(null, 'toolbar');
 
   icons[0].display = !/loadHistory|displayHistory/g.test(state);
@@ -90,10 +93,10 @@ const EditToolbar = () => {
         imgDesc={ `Revert unsaved changes icon` }
         clicked={ revertContentChanges }
       />
-      <Button altClass={ `Toolbar-Button ${ _gc.toolbar.saved ? 'disabled' : '' }` }
+      <Button altClass={ `Toolbar-Button ${ _gc.toolbar.saved ? '' : '' }` } // REMEMBER to add back disabled ***
         imgSrc={ state === 'saveData' ? simpleSpinner : saveIcon }
         imgDesc={ `Save Icon` }
-        clicked={ saveContentChanges }
+        clicked={ saveFiles || saveContentChanges }
       />
 		</div>
 	);
