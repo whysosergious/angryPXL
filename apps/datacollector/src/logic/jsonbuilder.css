@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,400;1,600&display=swap');
+
+.JSON-Builder {
+  
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  top: 2rem;
+  right: 1.5rem;
+  min-height: 15rem;
+  height: 30rem;
+  min-width: 20rem;
+  width: 16rem;
+  background-color: rgb(21, 34, 37);
+  z-index: 10;
+  box-shadow: 1rem 2rem 2.4rem -1rem rgba(4, 5, 4, 0.562);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.JSON-Builder.minimized {
+  min-height: 0;
+  min-width: 0;
+  height: 2rem;
+  width: 14rem;
+}
+
+.JSON-Builder * {
+  font-family: 'Poppins', sans-serif;
+  line-height: normal;
+}
+
+
+.JSON-Builder-Header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4rem;
+  width: 100%;
+  /* background-color: #1d273a; */
+  z-index: 4;
+}
+.Builder-Heading-Group {
+  position: relative;
+  height: 4rem;
+  width: 100%;
+  background-color: #1d273a;
+}
+
+.Info-Row {
+	display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  position: relative;
+	/* flex-direction: row; */
+  position: relative;
+  left: 0;
+  height: 2rem;
+	width: 100%;
+  padding: 0 1rem;
+	/* padding: .2rem 0 .2rem .3rem; */
+	background: linear-gradient(0deg, #6c702e 0%, #8ab32b 100%);
+	color:rgb(50, 62, 65);
+}
+
+.Info-Row button {
+  flex-grow: 0;
+  height: 100%;
+  padding: .4rem 0;
+  border: none;
+  width: 4rem;
+  /* border-left: .15rem solid rgba(0, 0, 0, 0.089);
+  border-right: .15rem solid rgba(0, 0, 0, 0.089); */
+  border-radius: 0;
+  opacity: .8;
+}
+.Info-Row button:hover {
+  background-color: #05080e11;
+  opacity: 1;
+}
+.Info-Row button:active {
+  background-color: #05080e2d;
+}
+.Info-Row button.active {
+  background-color: #323e587a;
+  /* outline: .2rem solid rgba(0, 0, 0, 0.445); */
+}
+.Info-Row button img {
+  height: 100%;
+  
+}
+.Info-Row button h2 {
+  font-weight: 700;
+  color: black;
+}
+
+.JSON-Builder-Handle-Bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  margin: 0 auto;
+  height: .8rem;
+  width: calc(4rem + 10%);
+  border-radius: .4rem;
+  /* background-color: red; */
+  opacity: .8;
+  cursor: ns-resize;
+}
+
+.JSON-Builder-Handle-Right,
+.JSON-Builder-Handle-Left {
+  position: absolute;
+  right: 0;
+  top: 25%; bottom: 0;
+  margin: auto 0;
+  height: calc(4rem + 10%);
+  width: .8rem;
+  /* background-color: red; */
+  border-radius: .4rem;
+  cursor: ew-resize;
+}
+
+.JSON-Builder-Handle-Left {
+  left: 0;
+}
+.minimized .JSON-Builder-Handle-Bottom,
+.minimized .JSON-Builder-Handle-Left {
+  display: none;
+}
+.JSON-Container {
+  text-align: left;
+  flex-shrink: 0;
+  /* flex-grow: 0; */
+  height: 100%;
+  width: 100%;
+  padding: .7rem 0;
+  padding-bottom: 20rem;
+  /* margin: 1rem; */
+  border: .9rem solid #0e121a;
+  border-top: none;
+  background-color: #05080e;
+  color: rgb(150, 209, 111);
+  overflow: auto;
+}
+.JSON-Container::-webkit-scrollbar {
+  width: 0;
+}
+
+.Builder-Heading {
+  padding: 1.3rem 1rem;
+}
+.minimized .Builder-Heading {
+  padding: .2rem .7rem;
+  font-size: 1.1rem;
+}
+button.Builder-Minimize-Button {
+  position: absolute;
+  width: 1.2rem;
+  padding: .2rem .7rem;
+  right: .85rem;
+  top: .85rem;
+  opacity: .3;
+  border: none;
+  border-bottom: .3rem solid white;
+}
+button.Builder-Minimize-Button:hover {
+  opacity: 1;
+}
+.minimized button.Builder-Minimize-Button {
+  position: absolute;
+  width: 1.2rem;
+  padding: .3rem .5rem;
+  right: .8rem;
+  top: .4rem;
+  border: .2rem solid white;
+  border-bottom: .4rem solid white;
+}
+code {
+  background: none !important;
+}
+
+.Data-Entry {
+  display: flex;
+  flex-wrap: wrap;
+  padding: .7rem 2.7rem 1rem 1rem;
+  border-bottom: .14rem solid black;
+}
+/* .Data-Entry:active,
+.Colon.closing:active {
+  transition: transform .3s ease; 
+} */
+.Colon + .Data-Entry {
+  margin-top: 1rem;
+  border-top: .14rem solid black;
+}
+.Data-Entry + .Colon {
+  margin-top: 1rem;
+}
+.Data-Entry:hover,
+.Colon.closing:hover {
+  background-color: #080708;
+}
+.Data-Entry h3 {
+  margin: .4rem 0;
+}
+.Data-Entry h3.key {
+  font-weight: 600;
+}
+.Data-Entry h3.value {
+  padding-left: 1rem;
+  color: rgb(150, 209, 111);
+}
+
+.Colon {
+  margin: .3rem 1rem;
+}
+
+.Controller-Buttons {
+  display: flex;
+  padding: .7rem;
+  opacity: .5;
+  transition: opacity .5s ease;
+}
+.Controller-Buttons:hover {
+  opacity: 1;
+}
+.Controller-Buttons button {
+  
+  border: none;
+  height: 3rem;
+  width: 3rem;
+  padding: 0;
+  margin: 0 .3rem;
+  opacity: .5;
+  transition: opacity .2s ease;
+}
+.Controller-Buttons button:not(.disabled):hover {
+  opacity: 1;
+}
+button.disabled {
+  pointer-events: none;
+}
+.Controller-Buttons button h3 {
+  font-weight: 600;
+  font-size: .9rem;
+  color: rgb(255, 217, 0);
+}
+
+
+
+
+.JSON-Builder h1 {
+  text-align: left;
+  font-size: 1.3rem;
+}
+.JSON-Builder h2 {
+  font-size: 1.1rem;
+}
+.JSON-Builder h3 {
+  font-size: .9rem;
+  color: rgb(200, 114, 250);
+}
