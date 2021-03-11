@@ -429,7 +429,7 @@ function dropEntry(e) {
 
 	const closeNest = (e) => {
 		console.log(path)
-		let nestType = path[path.length-1].type;
+		let nestType = { type: 'close', value: path[path.length-1].type };
 		prepObj.push(nestType);
 		prepArray.push(
 			<div key={ e.timeStamp } onMouseDown={ (ev)=>startDrag(ev) } className={ `Colon closing` } data-zkey={ nestType } data-zel="builder" style={{ paddingLeft: `${ (path.length-1) * .7 }rem` }} draggable="true">{ nestType === 'nest' ? '}' : `]` }</div>
@@ -442,12 +442,12 @@ function dropEntry(e) {
 	const compileJSON = () => {
 		let json = {};
 		Object.entries(prepObj).forEach((e,v) => {
-			if (e[1].path[0].type === 'array') {
+			// if (e[1].path[0].type === 'array') {
 
-			}
+			// }
 			console.log(e);
 		})
-		console.log(json);
+		console.log(prepObj);
 	}
 
 	const handleToolbarSelection = (e, action) => {
