@@ -1,0 +1,43 @@
+{
+  "dir_path": "../apps/testapp/data/gallery",
+  "albums": [
+    "featured"
+  ],
+  "featured": [
+    {
+      "file_name": "first-image",
+      "file_ext": ".jpeg",
+      "file_type": "image",
+      "file_size": "6626568",
+      "description": "First image",
+      "height": 1600,
+      "width": 2400,
+      "resolutions": [
+        {
+          "file_name": "first-image-1500w",
+          "file_size": "566545",
+          "height": 1000,
+          "width": 1500
+        },
+        {
+          "file_name": "first-image-750w",
+          "file_size": "2468",
+          "height": 750,
+          "width": 1000
+        },
+        {
+          "file_name": "first-image-450w",
+          "file_size": "2468",
+          "height": 400,
+          "width": 600
+        },
+        {
+          "file_name": "first-image-200w",
+          "file_size": "115",
+          "height": 200,
+          "width": 300
+        }      
+      ]
+    }
+  ]
+}

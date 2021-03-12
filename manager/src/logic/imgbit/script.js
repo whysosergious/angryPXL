@@ -5,11 +5,10 @@ const defaultOptions = {
   keep_asra: true,  // keep aspect ratio
   keep_type: false, // keep original file type
   default_type: 'image/jpeg',
-  target_sizes: [1000, 600, 300], // new dimentions, scale copies to these sizes. if it's width or height depends on the aspect ratio
+  target_sizes: [1000, 700, 400], // new dimentions, scale copies to these sizes. if it's width or height depends on the aspect ratio
 }
 
-
-const dims = [];
+let galleryAlbum = 'featured';
 
 const imgbit = async (images,  options=defaultOptions ) => {
   const { img_grade, keep_type, default_type, target_sizes } = options;
@@ -32,6 +31,7 @@ const imgbit = async (images,  options=defaultOptions ) => {
         imageData.url = url;
         imageData.file_type = image.type;
         imageData.file_size = image.size;
+        imageData.album = galleryAlbum;
         imageData.description = 'Preview';
 
         let img = new Image();
@@ -47,20 +47,19 @@ const imgbit = async (images,  options=defaultOptions ) => {
           let scaleDim = imageData.asra < 1 ? 'height' : 'width';
           
           // create optimized image sizes
-          imageData.sizes = target_sizes.reduce(function(result, targetSize){
+          imageData.sizes = target_sizes.reduce(function(result, targetSize) {
             
-            // do not scale up the image
-            if ( imageData[scaleDim] >= targetSize ) { 
+            // do not scale up the image and skip if the difference is less than 101 dalmatians
+            if ( imageData[scaleDim] > targetSize+100 ) {
 
-              dims[0] = targetSize;
-              dims[1] = Math.floor(dims[0] * imageData.asra);
+              let scaleAmount = imageData[scaleDim] - targetSize;
               let canvas = document.createElement('canvas');
-              
-              canvas.height = dims[scaleDim === 'height' ? 0 : 1];
-              canvas.width = dims[scaleDim === 'width' ? 0 : 1];
+
+              canvas.height = imageData.height - scaleAmount;
+              canvas.width = imageData.width - scaleAmount;
 
               let context = canvas.getContext('2d');
-              context.drawImage(img, 0, 0, dims[0], dims[1]);
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
               let dataURL = canvas.toDataURL(keep_type ? imageData.file_type : default_type, img_grade);
 

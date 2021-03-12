@@ -1,0 +1,33 @@
+.Checkbox {
+  display: block;
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: .6rem;
+  border: .17rem solid white;
+  opacity: .33;
+  cursor: pointer;
+}
+
+.Checkbox > div {
+  opacity: 0;
+}
+.Checkbox:hover {
+  opacity: .77;
+  background-color: rgba(155, 130, 84, 0.555);
+}
+.Checkbox.checked {
+  opacity: .85;
+}
+.Checkbox.checked > div {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  margin: auto;
+  height: 77%;
+  width: 77%;
+  background-color: rgb(235, 240, 252);
+  border-radius: .3rem;
+  opacity: .8;
+}
+.Checkbox.checked > div:hover {
+  opacity: 1;
+}

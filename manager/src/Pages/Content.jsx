@@ -27,12 +27,15 @@ const unsetEdit = (event) => {
 
 let entries = [];
 let entry = [];
-
+var i = 0;
 function entriesFromJSON(obj, parent=[], arrayIndex=null ) {
-	Object.entries(obj).forEach( (e,i) => {
+	Object.entries(obj).forEach( (e) => {
+		i++;
+		
 		let hideEntry = ['exceptions', 'time', 'file'].find(v => e[0] === v)
 		if ( hideEntry ) { return }
 		if( typeof e[1] === 'object' ) {
+			
 			if ( !parent[0] ) {
 				if ( entry[0] ) {
 					entries.push(
@@ -55,6 +58,7 @@ function entriesFromJSON(obj, parent=[], arrayIndex=null ) {
 					</div>
 
 				);
+				
 			} else if( !e[0].match(/[0-9]/g) ) {
 				entry.push(
 					<h2 className={ `small stripes Subheading` } key={`sub${parent}.${i}`}>{ e[0] }</h2>
@@ -62,13 +66,12 @@ function entriesFromJSON(obj, parent=[], arrayIndex=null ) {
 			} else {
 				arrayIndex = e[0];
 			}
-			
+
 			entriesFromJSON(e[1], [...parent, e[0]], arrayIndex );
 		} else {
 			let engObj = _gc.textContent;
 			parent.forEach(e => {
 				engObj = engObj[e];
-				
 			})
 			
 			entry.push(

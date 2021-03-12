@@ -1,0 +1,13 @@
+
+
+
+
+The last entry in JSON is not displayed i the content section.    ** BUG
+
+-
+
+Handle duplicates when uploading media
+
+-
+
+Previews are now viewable/inspectable after file upload ** LOW_PRIORITY

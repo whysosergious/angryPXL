@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-const rootUrl = 'http://localhost/angrypxl/';
+const cmsroot = 'http://localhost/angrypxl/';
+export const approot = 'http://localhost/angrypxl/apps/';
 export const targetApp = 'testapp';
-const dataUrl =  `${ rootUrl }apps/${ targetApp }/data/`;
+const dataUrl =  `${ approot }${ targetApp }/data/`;
 
 
 export const fetchJSON = async (fileName, { fileExt='.json', backup=true } = {}) => {
@@ -35,34 +36,32 @@ export const fetchJSON = async (fileName, { fileExt='.json', backup=true } = {})
   return result;
 }
 
-const postData = async (dataObj) => {
+const postData = async (contentData) => {
   const response = await fetch(
-    `${ rootUrl }fs/fw.php`,
+    `${ cmsroot }fs/fw.php`,
     {
       method: "POST",
       headers: {
             'Content-Type': 'application/json',
           },
-      body: JSON.stringify(dataObj),
+      body: JSON.stringify(contentData),
     }
   ).catch(err => { console.log(err) });
 
   await response.text();
 }
 
-export const uploadFiles = async file => {
-  // let formData = new FormData();
-  // formData.append( 'file', file );
-console.log(file);
+export const uploadFiles = async fileData => {
+// console.log(fileData);
   const response = await fetch(
-    `${ rootUrl }fs/fu.php`,
+    `${ cmsroot }fs/fu.php`,
     {
       method: "POST",
-      body: JSON.stringify(file),
+      body: JSON.stringify(fileData),
     }
   ).catch(err => { console.log(err) });
 
-  console.log(await response.text());
+  return await response.text();
 }
 
 export const rollBackChanges = () => {

@@ -404,7 +404,7 @@ function dropEntry(e) {
 				<div className={ `Colon` } data-zel="builder">{ `{` }</div>
 			</div>
 		);
-			console.log(path)
+			// console.log(path)
 		setList(e.timeStamp);
 	}
 
@@ -423,12 +423,12 @@ function dropEntry(e) {
 				<div className={ `Colon` } data-zel="builder">{ `[` }</div>
 			</div>
 		);
-			console.log(prepObj)
+			// console.log(prepObj)
 		setList(e.timeStamp);
 	}
 
 	const closeNest = (e) => {
-		console.log(path)
+		// console.log(path)
 		let nestType = { type: 'close', value: path[path.length-1].type };
 		prepObj.push(nestType);
 		prepArray.push(
@@ -439,15 +439,39 @@ function dropEntry(e) {
 		setList(e.timeStamp);
 	}
 
-	const compileJSON = () => {
-		let json = {};
-		Object.entries(prepObj).forEach((e,v) => {
-			// if (e[1].path[0].type === 'array') {
 
-			// }
-			console.log(e);
+
+	const compileJSON = () => {
+		const json = {};
+		let shift = {};
+		let nest = json;
+		const builderPath = [];
+		Object.values(prepObj).forEach((e,v) => {
+			if ( e.type === 'close' ) {
+				shift = json;
+				builderPath.pop();
+				builderPath.forEach(e=>{
+
+					console.log(e)
+					shift = shift[e];
+				})
+				nest = shift;
+				
+			} else {
+				nest[e.key] = {};
+				nest = nest[e.key];
+				builderPath.push(e.key);
+			}
+			
+			
 		})
-		console.log(prepObj);
+		console.log(JSON.stringify(json));
+		// element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  	// element.setAttribute('download', filename);
+		console.log(shift)
+		console.log(nest)
+		console.log(json)
+		console.log(path)
 	}
 
 	const handleToolbarSelection = (e, action) => {

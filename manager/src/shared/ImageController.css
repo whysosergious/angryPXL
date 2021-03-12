@@ -1,0 +1,37 @@
+.Album .Image-Controller {
+  position: relative;
+  padding-bottom: 100%;
+  background-color: black;
+  overflow: hidden;
+  user-select: none;
+}
+
+.Album img {
+  height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: -1;
+}
+
+.Album .Image-Controller h2 {
+  position: absolute;
+  top: 0; right: 0;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.7rem;
+  height: 1.7rem;
+  width: 1.7rem;
+  margin: .4rem;
+  background-color: rgba(0, 0, 0, 0.705);
+  border-radius: .7rem;
+  opacity: .7;
+  user-select: none;
+}
+
+.Image-Controller .Checkbox {
+  position: absolute;
+  top: 0; left: 0;
+  margin: .4rem;
+}
