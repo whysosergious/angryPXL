@@ -9,7 +9,7 @@ import mediaJSON from 'logic/content-collections';
 import Anchor from 'shared/Anchor';
 
 // DEV PATH TO LOCALHOST
-const localhost = 'http://192.168.0.149/brokenOT/IP/local/';
+const localhost = 'http://localhost/brokenOT/IP/local/';
 mediaJSON.forEach((e) => e.src = localhost + e.src );
 // console.log(mediaJSON)
 // DEV

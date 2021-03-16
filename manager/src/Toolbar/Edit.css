@@ -14,6 +14,9 @@
   box-shadow: -.3rem .5rem 1.7rem rgba(103, 138, 80, 0.459);
   z-index: 2;
 }
+.Toolbar-Button.hidden {
+  display: none;
+}
 
 .Show-History {
   border-radius: 0 1rem 1rem 0;

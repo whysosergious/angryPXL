@@ -9,7 +9,7 @@ galleryMedia.recLoop(e => {
 
 // const galleryMedia = JSON.parse(galleryMediaJSON);
 
-console.log(galleryMedia)
+// console.log(galleryMedia)
 // console.log(galleryMedia)
 
 

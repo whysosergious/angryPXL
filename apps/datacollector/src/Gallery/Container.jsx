@@ -9,15 +9,15 @@ import { useGlobalObj, globalObj } from 'zergski-global';
 import { routerHook } from 'logic/router';
 
 //media
-import tempImage1 from 'ass/img/gallery/gal-temp1.jpg';
-import tempImage2 from 'ass/img/gallery/gal-temp2.jpg';
-import tempImage3 from 'ass/img/gallery/gal-temp3.jpg';
-import tempImage4 from 'ass/img/gallery/gal-temp4.jpg';
-import tempImage5 from 'ass/img/gallery/gal-temp5.jpg';
-import tempImage6 from 'ass/img/gallery/gal-temp6.jpg';
-import tempImage7 from 'ass/img/gallery/gal-temp7.jpg';
-import tempImage8 from 'ass/img/gallery/gal-temp8.jpg';
-import tempImage9 from 'ass/img/gallery/gal-temp9.jpg';
+// import tempImage1 from 'ass/img/gallery/gal-temp1.jpg';
+// import tempImage2 from 'ass/img/gallery/gal-temp2.jpg';
+// import tempImage3 from 'ass/img/gallery/gal-temp3.jpg';
+// import tempImage4 from 'ass/img/gallery/gal-temp4.jpg';
+// import tempImage5 from 'ass/img/gallery/gal-temp5.jpg';
+// import tempImage6 from 'ass/img/gallery/gal-temp6.jpg';
+// import tempImage7 from 'ass/img/gallery/gal-temp7.jpg';
+// import tempImage8 from 'ass/img/gallery/gal-temp8.jpg';
+// import tempImage9 from 'ass/img/gallery/gal-temp9.jpg';
 
 // components
 import GalleryGrid from 'shared/GalleryGrid';

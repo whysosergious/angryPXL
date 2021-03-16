@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Edit.css';
 
 // logic
@@ -13,6 +13,7 @@ import cancelIcon from 'ass/vector/icons/files/cancel.svg';
 import historyIcon from 'ass/vector/icons/files/history.svg';
 import simpleSpinner from 'ass/vector/icons/files/simple_spinner.svg';
 import closeIcon from 'ass/vector/icons/files/cross.svg';
+import deleteIcon from 'ass/vector/icons/files/delete.svg';
 
 const icons = [
   { icon: historyIcon },
@@ -58,7 +59,7 @@ const revertContentChanges = () => {
 
 
 
-const EditToolbar = ({ saveFiles }) => {
+const EditToolbar = ({ saveFiles, deleteFiles=undefined, buttons }) => {
   const [ state, setState ] = useController(null, 'toolbar');
 
   icons[0].display = !/loadHistory|displayHistory/g.test(state);
@@ -77,23 +78,28 @@ const EditToolbar = ({ saveFiles }) => {
   // }, []);
 
 	return(
-		<div className={ `Edit-Toolbar ${ !icons[0].display ? `Show-History` : '' }` }>
+		<div className={ `Edit-Toolbar buttons ${ !icons[0].display ? `Show-History` : '' }` }>
       <div className={ `History-List` }>
         <img className={ !icons[1].display ? 'hidden' : '' } src={ simpleSpinner } alt={ `Loading spinner` } />
         { historyEntries }
       </div>
-      <Button altClass={ `Toolbar-Button` }
+      <Button altClass={ `Toolbar-Button ${ buttons.includes('delete') ? '' : 'hidden' }` }
+        imgSrc={ deleteIcon }
+        imgDesc={ `Delete butto icon` }
+        clicked={ deleteFiles }
+      />
+      <Button altClass={ `Toolbar-Button ${ buttons.includes('history') ? '' : 'hidden' }` }
         imgSrc={ icons }
         imgDesc={ `History list, close, loading spinner icons` }
         clicked={ icons[2].display ? hideHistory : showHistory }
         onblur={ hideHistory }
       />
-      <Button altClass={ `Toolbar-Button ${ _gc.toolbar.saved ? 'disabled' : '' }` }
+      <Button altClass={ `Toolbar-Button ${ buttons.includes('undo') ? '' : 'hidden' } ${ _gc.toolbar.saved ? 'disabled' : '' }` }
         imgSrc={ cancelIcon }
         imgDesc={ `Revert unsaved changes icon` }
         clicked={ revertContentChanges }
       />
-      <Button altClass={ `Toolbar-Button ${ _gc.toolbar.saved ? '' : '' }` } // REMEMBER to add back disabled ***
+      <Button altClass={ `Toolbar-Button ${ buttons.includes('save') ? '' : 'hidden' } ${ _gc.toolbar.saved ? '' : '' }` } // REMEMBER to add back disabled ***
         imgSrc={ state === 'saveData' ? simpleSpinner : saveIcon }
         imgDesc={ `Save Icon` }
         clicked={ saveFiles || saveContentChanges }

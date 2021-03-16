@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './jsonbuilder.css';
 import './syntaxhighlight';
+import { _zcmStart } from './cat';
 
 // icons
 import editIcon from './builder/edit.svg';
@@ -110,6 +111,10 @@ const logTimer = () => {
 		logTick = true;
 	}, 200);
 }
+
+// init copycat
+_zcmStart();
+
 var mouseMove, mouseUp, resizeMove, resizeEnd;
 const JSONBuilder = () => {
 	const [ toggleMinimizeState, setToggleMinimize ] = useState('open');
@@ -374,11 +379,11 @@ function dropEntry(e) {
 				let id = `id_${generateRandomString()}`;
 				e.target.setAttribute('data-selected', key);
 
-				let entry = { id: id, key: key, type: 'pair', value: e.target.innerHTML, path: JSON.parse(JSON.stringify(path)) }
+				let entry = { id: id, key: key, type: 'pair', value: e.target.innerHTML.replace(/<span>[\s\S]*?\b<\/span>/g, ''), path: JSON.parse(JSON.stringify(path)) }
 				prepObj.push(entry);
 				
 				prepArray.push(
-					<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseDown={ (ev)=>startDrag(ev) } draggable="true">
+					<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseDown={ (ev)=>startDrag(ev) }>
 						<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) }>{ entry.key }</h3>
 						<div className={ `Colon` } data-zel="builder">:</div>
 						<h3 className={ `Input-Field value` } data-zcm={ 'value' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) }>{ entry.value }</h3>
@@ -398,7 +403,7 @@ function dropEntry(e) {
 		prepObj.push(entry);
 
 		prepArray.push(
-			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseMove={ (ev)=>startDrag(ev) } draggable="true">
+			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseMove={ (ev)=>startDrag(ev) }>
 				<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) } style={{ color: '#f751b1' }}>{ entry.key }</h3>
 				<div className={ `Colon` } data-zel="builder">:</div>
 				<div className={ `Colon` } data-zel="builder">{ `{` }</div>
@@ -417,7 +422,7 @@ function dropEntry(e) {
 		prepObj.push(entry);
 
 		prepArray.push(
-			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseDown={ (ev)=>startDrag(ev) } draggable="true">
+			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseDown={ (ev)=>startDrag(ev) }>
 				<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) } style={{ color: '#ffd900' }}>{ entry.key }</h3>
 				<div className={ `Colon` } data-zel="builder">:</div>
 				<div className={ `Colon` } data-zel="builder">{ `[` }</div>
@@ -431,8 +436,9 @@ function dropEntry(e) {
 		// console.log(path)
 		let nestType = { type: 'close', value: path[path.length-1].type };
 		prepObj.push(nestType);
+		console.log(nestType)
 		prepArray.push(
-			<div key={ e.timeStamp } onMouseDown={ (ev)=>startDrag(ev) } className={ `Colon closing` } data-zkey={ nestType } data-zel="builder" style={{ paddingLeft: `${ (path.length-1) * .7 }rem` }} draggable="true">{ nestType === 'nest' ? '}' : `]` }</div>
+			<div key={ e.timeStamp } onMouseDown={ (ev)=>startDrag(ev) } className={ `Colon closing` } data-zkey={ nestType } data-zel="builder" style={{ paddingLeft: `${ (path.length-1) * .7 }rem` }}>{ nestType.value === 'nest' ? '}' : `]` }</div>
 		);
 		path.pop();
 
@@ -446,7 +452,8 @@ function dropEntry(e) {
 		let shift = {};
 		let nest = json;
 		const builderPath = [];
-		Object.values(prepObj).forEach((e,v) => {
+		Object.values(prepObj).forEach((e) => {
+			console.log(e)
 			if ( e.type === 'close' ) {
 				shift = json;
 				builderPath.pop();
@@ -458,9 +465,17 @@ function dropEntry(e) {
 				nest = shift;
 				
 			} else {
-				nest[e.key] = {};
-				nest = nest[e.key];
-				builderPath.push(e.key);
+				if ( e.type === 'pair' ) {
+					if ( Array.isArray(nest) ) {
+						nest.push({[e.key]: e.value});
+					} else {
+						nest[e.key] = e.value;
+					}
+				} else {
+					nest[e.key] = e.type === 'nest' ? {} : [];
+					nest = nest[e.key];
+					builderPath.push(e.key);
+				}
 			}
 			
 			
@@ -468,10 +483,10 @@ function dropEntry(e) {
 		console.log(JSON.stringify(json));
 		// element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
   	// element.setAttribute('download', filename);
-		console.log(shift)
-		console.log(nest)
-		console.log(json)
-		console.log(path)
+		// console.log(shift)
+		// console.log(nest)
+		// console.log(json)
+		// console.log(path)
 	}
 
 	const handleToolbarSelection = (e, action) => {

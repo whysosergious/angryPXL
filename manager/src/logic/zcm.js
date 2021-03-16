@@ -64,6 +64,19 @@ export const uploadFiles = async fileData => {
   return await response.text();
 }
 
+export const deleteFiles = async fileData => {
+  // console.log(fileData);
+    const response = await fetch(
+      `${ cmsroot }fs/fd.php`,
+      {
+        method: "POST",
+        body: JSON.stringify(fileData),
+      }
+    ).catch(err => { console.log(err) });
+  
+    return await response.text();
+  }
+
 export const rollBackChanges = () => {
   _gc.textContent = JSON.parse(JSON.stringify(_gc.textBackup));
 }

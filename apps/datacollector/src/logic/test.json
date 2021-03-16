@@ -1,0 +1,40 @@
+{
+  "key_1h5u637nnls": {
+    "key_1whlwhjcp0s": "<span>Välkommen hem till</span>Oliver Twist",
+    "key_evj0egkudvs": "Välkommen hem till",
+    "key_sv3tgksm5cs": [
+      {
+        "id": "id_cj0fjtulqd",
+        "key": "key_egb7shg0dec",
+        "type": "pair",
+        "value": "En av de bästa",
+        "path": [
+          {
+            "type": "nest",
+            "key": "key_1h5u637nnls"
+          },
+          {
+            "type": "array",
+            "key": "key_sv3tgksm5cs"
+          }
+        ]
+      },
+      {
+        "id": "id_qne6qrbmb7",
+        "key": "key_quwwi1ohwto",
+        "type": "pair",
+        "value": "<span data-selected=\"key_egb7shg0dec\">En av de bästa</span>I världen",
+        "path": [
+          {
+            "type": "nest",
+            "key": "key_1h5u637nnls"
+          },
+          {
+            "type": "array",
+            "key": "key_sv3tgksm5cs"
+          }
+        ]
+      }
+    ]
+  }
+}

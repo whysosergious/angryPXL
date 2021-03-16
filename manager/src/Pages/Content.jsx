@@ -87,12 +87,17 @@ function entriesFromJSON(obj, parent=[], arrayIndex=null ) {
 
 
 const Content = () => {
-	const [ state, setState ] = useController(null, 'content');
+	const [ , setState ] = useController(null, 'content');
 	
 	const updatePage = () => {
 		entries = [];
 		entry = [];
 		entriesFromJSON(_gc.textContent);
+		entries.push(
+			<div key={`entry-last.${i}`} className={ `Section-Group` }>
+				{ entry }
+			</div>
+		);
 		setState(Date.now());
 	}
 
@@ -105,7 +110,7 @@ const Content = () => {
 
 	return(
 		<section className="Page">
-			<EditToolbar />
+			<EditToolbar buttons="history undo save"/>
 			<h1 className={ `Page-Heading` }>Text Content and Locale</h1>
 			{ 
 				entries
