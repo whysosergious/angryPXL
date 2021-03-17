@@ -30,6 +30,55 @@
   line-height: normal;
 }
 
+.Data-Entry,
+.Colon {
+  position: relative;
+}
+.Data-Entry:hover .Inline-Button,
+.Colon:hover .Inline-Button {
+  display: block;
+}
+
+.JSON-Builder .Inline-Button {
+  display: none;
+  position: absolute;
+  top:1.1rem; right: 1rem;
+  height: 1.4rem;
+  width: 1.4rem;
+  opacity: .7;
+  cursor: pointer;
+}
+.JSON-Builder .Inline-Button:hover {
+  opacity: 1;
+}
+.Colon  .Inline-Button {
+  top: .05rem;
+}
+pre {
+  white-space: pre-wrap;
+  padding: 1rem;
+}
+.Raw-Heading {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding-left: 1rem;
+  padding-top: 1.5rem;
+  width: 100%;
+  height: 3rem;
+  background-color: #1b1f29;
+}
+.Raw-Component {
+  height: 3rem;
+  padding: 0;
+  background-color: rgb(1, 2, 3);
+  margin: 1rem 1rem 2rem 1rem;
+  overflow: hidden;
+}
+.Raw-Component h3 {
+  padding: 1rem;
+
+}
 
 .JSON-Builder-Header {
   position: absolute;
@@ -128,6 +177,7 @@
   display: none;
 }
 .JSON-Container {
+  display: none;
   text-align: left;
   flex-shrink: 0;
   /* flex-grow: 0; */
@@ -144,6 +194,9 @@
 }
 .JSON-Container::-webkit-scrollbar {
   width: 0;
+}
+.JSON-Container.active {
+  display: block;
 }
 
 .Builder-Heading {
@@ -212,7 +265,8 @@ code {
 }
 
 .Colon {
-  margin: .3rem 1rem;
+  margin: .3rem 0 0 1rem;
+  padding-left: .4rem;
 }
 
 .Controller-Buttons {

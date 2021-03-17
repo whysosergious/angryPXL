@@ -8,6 +8,7 @@ import editIcon from './builder/edit.svg';
 import sortIcon from './builder/sort.svg';
 import downloadIcon from './builder/download.svg';
 import compileIcon from './builder/compile.svg';
+import crossIcon from './builder/circlecross.svg';
 
 
 
@@ -115,6 +116,8 @@ const logTimer = () => {
 // init copycat
 _zcmStart();
 
+let rawjson = '';
+let rawComponents = [];
 var mouseMove, mouseUp, resizeMove, resizeEnd;
 const JSONBuilder = () => {
 	const [ toggleMinimizeState, setToggleMinimize ] = useState('open');
@@ -123,55 +126,44 @@ const JSONBuilder = () => {
 
 
 let dragging = false;
-// let dragY = 0;
+let dragY = 0;
 let dragged;
-let heroIndex, targetIndex, indexLimit;
+let heroIndex, targetIndex;
 function startDrag(e) {
-	// dragY = e.screenY;
+	dragY = e.screenY;
 	dragged = e.target;
 	dragged.style.pointerEvents = 'none';
+	dragged.style.zIndex = '10';
 	let parent = e.target.parentElement;
 	parent.style.userSelect = 'none';
 	let siblings = parent.children;
 	Object.values(siblings).forEach( s => {
 		s.addEventListener('mousemove', dragEntry);
 	});
-	// console.log();
 	prepObj.forEach( (c,i) => {
 		if ( c.id === e.target.dataset.zid ) {
 			heroIndex = i;
 			return;
 		}
 	});
-	if ( e.target.dataset.zkey === 'array' ) {
-		for ( let i=heroIndex; i>=0; i-- ) {
-			if ( prepObj[i].type === 'array' ) {
-				indexLimit = i+1;
-				break;
-			}
-		}
-	}
-	if ( e.target.dataset.zkey === 'nest' ) {
-		for ( let i=heroIndex; i>=0; i-- ) {
-			if ( prepObj[i].type === 'nest' ) {
-				indexLimit = i+1;
-				break;
-			}
-		}
-	}
 	window.addEventListener('mouseup', dropEntry);
 }
 
-// let dragEntryOffset;
+let dragEntryOffset;
 function dragEntry(e) {
 	e.stopPropagation();
 	e.preventDefault();
-	// dragEntryOffset = e.screenY - dragY;
-	// dragged.style.transform = `translate3d(0,${ dragEntryOffset }px,0)`;
 	dragging = true;
+	if ( dragged ) {
+		dragEntryOffset = e.screenY - dragY;
+		dragged.style.transform = `translate3d(0,${ dragEntryOffset }px,0)`;
+	}
+	
+	
 	prepObj.forEach( (c,i) => {
 		if ( c.id === e.target.dataset.zid ) {
 			targetIndex = i;
+			// console.log(c.id)
 			return;
 		}
 	});	
@@ -181,18 +173,17 @@ function dragEntry(e) {
 function dropEntry(e) {
 	e.stopPropagation();
 	e.preventDefault();
-	dragged.removeAttribute('style');
+	dragged && dragged.removeAttribute('style');
+	dragEntryOffset = 0;
+	dragged = null;
 	let parent = e.target.parentElement;
 
-	let siblings = parent.children;
+	if ( parent ) {
+		let siblings = parent.children;
 
 	
 		parent.style.userSelect = '';
 		
-		if ( indexLimit > 0 && targetIndex < indexLimit ) {
-			targetIndex = indexLimit;
-			indexLimit = 0;
-		}
 		if ( targetIndex >= 0 && dragging === true ) {
 			let hero = prepObj[heroIndex];
 			let uiHero = prepArray[heroIndex];
@@ -206,9 +197,11 @@ function dropEntry(e) {
 		}
 		dragging = false;
 		window.removeEventListener('mouseup', dropEntry);
-	Object.values(siblings).forEach( s => {
-		s.removeEventListener('mousemove', dragEntry);
-	});
+		Object.values(siblings).forEach( s => {
+			s.removeEventListener('mousemove', dragEntry);
+		});
+	}
+
 // }
 }
 
@@ -387,6 +380,7 @@ function dropEntry(e) {
 						<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) }>{ entry.key }</h3>
 						<div className={ `Colon` } data-zel="builder">:</div>
 						<h3 className={ `Input-Field value` } data-zcm={ 'value' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) }>{ entry.value }</h3>
+						<img className={ `Inline-Button` } src={ crossIcon } alt="Delete entry" onMouseDown={ deleteEntry } data-zel="builder" />
 					</div>
 				);
 				setList(e.timeStamp);
@@ -403,10 +397,11 @@ function dropEntry(e) {
 		prepObj.push(entry);
 
 		prepArray.push(
-			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseMove={ (ev)=>startDrag(ev) }>
+			<div key={ key } className={ `Data-Entry` } data-zel="builder" data-zid={ entry.id } data-zkey={ entry.key } onMouseDown={ (ev)=>startDrag(ev) }>
 				<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) } style={{ color: '#f751b1' }}>{ entry.key }</h3>
 				<div className={ `Colon` } data-zel="builder">:</div>
 				<div className={ `Colon` } data-zel="builder">{ `{` }</div>
+				<img className={ `Inline-Button` } src={ crossIcon } alt="Delete entry" onMouseDown={ deleteEntry } data-zel="builder" />
 			</div>
 		);
 			// console.log(path)
@@ -426,19 +421,39 @@ function dropEntry(e) {
 				<h3 className={ `Input-Field key` } data-zcm={ 'key' } data-zel="builder" onInput={ (ev)=>handleChange(ev, entry) } onMouseDown={ (ev)=>setEdit(ev, activeTool) } onBlur={ (ev)=>unsetEdit(ev) } style={{ color: '#ffd900' }}>{ entry.key }</h3>
 				<div className={ `Colon` } data-zel="builder">:</div>
 				<div className={ `Colon` } data-zel="builder">{ `[` }</div>
+				<img className={ `Inline-Button` } src={ crossIcon } alt="Delete entry" onMouseDown={ deleteEntry } data-zel="builder" />
 			</div>
 		);
 			// console.log(prepObj)
 		setList(e.timeStamp);
 	}
 
+	const deleteEntry = event => {
+		let parent = event.currentTarget.parentElement;
+		prepObj.forEach((e, i) => {
+			if ( e.id === parent.dataset.zid ) {
+				console.log(e)
+				if ( e.type === 'close' ) {
+					path.push({ type: prepObj[i].value });
+				} else if ( e.type !== 'pair' ) {
+					path.pop();
+				}
+				
+				prepObj.splice(i, 1);
+				prepArray.splice(i, 1);
+			}
+		});
+		setList(event.timeStamp);
+	}
 	const closeNest = (e) => {
 		// console.log(path)
-		let nestType = { type: 'close', value: path[path.length-1].type };
+		let nestType = { type: 'close', value: path[path.length-1].type, id: `${ Date.now() }` };
 		prepObj.push(nestType);
 		console.log(nestType)
 		prepArray.push(
-			<div key={ e.timeStamp } onMouseDown={ (ev)=>startDrag(ev) } className={ `Colon closing` } data-zkey={ nestType } data-zel="builder" style={{ paddingLeft: `${ (path.length-1) * .7 }rem` }}>{ nestType.value === 'nest' ? '}' : `]` }</div>
+			<div key={ nestType.id } onMouseDown={ (ev)=>startDrag(ev) } className={ `Colon closing` }  data-zid={ nestType.id } data-zel="builder" style={{ paddingLeft: `${ (path.length-1) * .7 }rem` }}>{ ')' }
+				<img className={ `Inline-Button` } src={ crossIcon } alt="Delete entry" onMouseDown={ deleteEntry } data-zel="builder" />
+			</div>
 		);
 		path.pop();
 
@@ -446,21 +461,19 @@ function dropEntry(e) {
 	}
 
 
-
+ 
 	const compileJSON = () => {
 		const json = {};
 		let shift = {};
 		let nest = json;
 		const builderPath = [];
 		Object.values(prepObj).forEach((e) => {
-			console.log(e)
+			// console.log(e)
 			if ( e.type === 'close' ) {
 				shift = json;
 				builderPath.pop();
 				builderPath.forEach(e=>{
-
-					console.log(e)
-					shift = shift[e];
+					shift = Array.isArray(shift) ? shift.find(f=> Object.keys(f)[0] === e)[e] : shift[e];
 				})
 				nest = shift;
 				
@@ -472,15 +485,22 @@ function dropEntry(e) {
 						nest[e.key] = e.value;
 					}
 				} else {
-					nest[e.key] = e.type === 'nest' ? {} : [];
-					nest = nest[e.key];
+
+					if ( Array.isArray(nest) ) {
+						let sub = {[e.key]: e.type === 'nest' ? {} : []};
+						nest.push(sub);
+						nest = sub[e.key];
+					} else {
+						nest[e.key] = e.type === 'nest' ? {} : [];
+						nest = nest[e.key];
+					}
 					builderPath.push(e.key);
 				}
-			}
-			
-			
+			}			
 		})
-		console.log(JSON.stringify(json));
+		// console.log(JSON.stringify(json));
+		rawjson = JSON.stringify(json, null, 3);
+		
 		// element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
   	// element.setAttribute('download', filename);
 		// console.log(shift)
@@ -492,16 +512,42 @@ function dropEntry(e) {
 	const findMatch = () => {
 		console.log(prepObj)
 		prepObj.forEach(e => {
-			if ( e.type === 'pair' ) {
+			if ( e.type === 'pair' && e.value ) {
 				e.match = [];
 				Object.values(_evilcook.components.collection).forEach(c => {
-					let component = `${ c.name }_${ c.path }`;
-					let matches = c.rawComponent.match(e.value);
+					let component = `${ c.path }_${ c.name }`;
+					let escapedString = e.value.replace(/(?=[-[\]{}()*+?.,\\^$|#])/g, '\\');
+					
+					let regex = new RegExp(`(["'\`{].*|[^>][\\s\\w]*|)(?:` + escapedString + `)(.*["'\`}]|[\\s\\w]*[^<]|)`, 'gi')
+					let matches = c.rawComponent.match(regex);	// escape RegEx special characters
+					// (?:["']|)(?:Boka Bord)((?!\w).[\s\S])(.*\s+[^"']+)  -- selects reverse
+					// ^(?!["'])(?![^[:alpha:]])(?:boka bord)(?=[^[:alpha:]]\B)([\s]*?["']|)   --- selects with letters in the beginning
 					matches && e.match.push({ component, matches })
+					
 				})
-				// console.log(matches);
 			}
-		})
+			
+		});
+		Object.values(_evilcook.components.collection).forEach(c => {
+			let component = `${ c.path }_${ c.name }`;
+			rawComponents.push(
+
+				<pre key={ Date.now() } className={ `Raw-Component` } data-zel="builder">
+					<div className={ `Raw-Heading` } onClick={ openCode } data-zel="builder"><h2 data-zel="builder">{ component }</h2></div>
+					<h3 data-zel="builder">{ c.rawComponent }</h3>
+					
+				</pre>
+			);
+		});
+	}
+
+	function openCode(e) {
+		if ( 	e.currentTarget.parentElement.style.height === 'auto' ) {
+			e.currentTarget.parentElement.style.height = '';
+		} else {
+			e.currentTarget.parentElement.style.height = 'auto';
+		}
+		
 	}
 
 	const handleToolbarSelection = (e, action) => {
@@ -530,7 +576,15 @@ function dropEntry(e) {
 			</div>
 
 			{/* <div className={ `JSON-Builder-Handle-Right` } onMouseDown={ handleStartResize } data-rh="right"></div> */}
-			<div className={ `JSON-Container` } data-zel="builder">
+			<div className={ `JSON-Container viewer ${ activeTool === 'dig' ? `active` : '' }` } data-zel="builder">
+					{ rawComponents }
+			</div>
+			<div className={ `JSON-Container viewer ${ activeTool === 'json' ? `active` : '' }` } data-zel="builder">
+				<pre data-zel="builder">
+					{ rawjson }
+				</pre>
+			</div>
+			<div className={ `JSON-Container ${ activeTool === 'edit' ? `active` : '' }` } data-zel="builder">
 				<div data-zel="builder">
 				{ prepArray }
 				</div>
