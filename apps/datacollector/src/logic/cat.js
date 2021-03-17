@@ -15,11 +15,10 @@ const z = {
 	},
 }
 
-export var _data = [];
 
 // const _evilcook = {
 // TEMP
-const _evilcook = {
+export const _evilcook = {
 	/**
 	 * @param {boolean} [ log ] : well, display the console log ofcourse 
 	 * <p>  
@@ -30,7 +29,7 @@ const _evilcook = {
 		loaded: {
 			index: '.js',
 		},
-		collection: [],
+		collection: {},
 		count: 0,
 	},
 	options: {
@@ -64,13 +63,15 @@ export async function _zcmStart( list=Polly ) {
 	_evilcook.options.log && log.forEach( entry => console.log(entry));
 	
 	content.forEach( ( component, index ) => {
-		_evilcook.components.collection.push(component);
-		_evilcook.components.count++;
+
+    _evilcook.components.collection[`${component.data.path}_${component.data.name}`] = component.data;
+    _evilcook.components.count++;
+		
 		
 		_processComponent( content, component, index );
 	});
 }
-
+console.log(_evilcook.components.collection)
 
 
 
@@ -81,14 +82,13 @@ async function _processComponent ( content, component, index ) {
 	let { rawComponent } = content[index].data;
 	let { loaded } = _evilcook.components;
 
-
 	// just tested by removing comments
 	z.log(rawComponent);
 	rawComponent = rawComponent.replace(/\B{\/\*\B[\s\S]*\B\*\/}\B/g, '');
-	rawComponent = rawComponent.replace(/\B\/\/.*\n/g, '');
+	rawComponent = rawComponent.replace(/\B\/\/.*\n/g, '').replace(/("\s*.\/|'\s*.\/)/g, !component.data.path || component.data.path === 'root' ? `'` : `'${component.data.path}/`);
+// console.log(rawComponent)
 
-
-	let matches = rawComponent.match(/\B<[A-Z].*\/>\B/g)?.map( res => res.replace(/<|\s+|\/+|>+/g, ''));
+	let matches = rawComponent.match(/\B<[A-Z].*\/>\B/g)?.map( res => res.replace(/(\b[^\w].*\s\S)|(<|>|\/|\s+)/g, ''));
 	
 	let routes = rawComponent.match(/\B<Route.*\/>\B/g)?.map( res => { return res.replace(/^.+{ | }.+$/g, '') });
 	let imports = rawComponent.split('import');
@@ -115,13 +115,13 @@ async function _processComponent ( content, component, index ) {
 		check[0] && ( keys = [ ...check, ...keys ] );
 	}
 
-
-
 	imports.forEach( line =>
 		keys?.forEach( key => {
-
+      // console.log(key)
 			if ( line.includes(key) ) {
 				loaded[ key ] = key;
+        if ( /react|jsonbuilder/.test(line) ) { return }
+        // console.log(line)
 				componentPath.push( line.match(/'.+'|".+"/g)[0].replace(/\.+|"+|'+/g, '').split('/') );
 			} else {
 				return;
@@ -144,9 +144,10 @@ async function _processComponent ( content, component, index ) {
 
 
 
-	_data.push(content);
+	
 	Polly.catArray[0] && _zcmStart( Polly );
 }
+// console.log();
 
 // we start with index.js
 let filePath = {};

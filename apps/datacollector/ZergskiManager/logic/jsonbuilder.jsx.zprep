@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './jsonbuilder.css';
 import './syntaxhighlight';
-import { _zcmStart, _evilcook } from './cat';
+import { _zcmStart } from './cat';
 
 // icons
 import editIcon from './builder/edit.svg';
@@ -379,7 +379,7 @@ function dropEntry(e) {
 				let id = `id_${generateRandomString()}`;
 				e.target.setAttribute('data-selected', key);
 
-				let entry = { id: id, key: key, type: 'pair', value: e.target.innerHTML.replace(/<span[\s\S]*?\b<\/span>/g, ''), path: JSON.parse(JSON.stringify(path)) }
+				let entry = { id: id, key: key, type: 'pair', value: e.target.innerHTML.replace(/<span>[\s\S]*?\b<\/span>/g, ''), path: JSON.parse(JSON.stringify(path)) }
 				prepObj.push(entry);
 				
 				prepArray.push(
@@ -489,25 +489,9 @@ function dropEntry(e) {
 		// console.log(path)
 	}
 
-	const findMatch = () => {
-		console.log(prepObj)
-		prepObj.forEach(e => {
-			if ( e.type === 'pair' ) {
-				e.match = [];
-				Object.values(_evilcook.components.collection).forEach(c => {
-					let component = `${ c.name }_${ c.path }`;
-					let matches = c.rawComponent.match(e.value);
-					matches && e.match.push({ component, matches })
-				})
-				// console.log(matches);
-			}
-		})
-	}
-
 	const handleToolbarSelection = (e, action) => {
 
 		action === 'json' && compileJSON();
-		action === 'dig' && findMatch();
 		action !== 'download' && setTool(action);
 	}
 
@@ -524,7 +508,7 @@ function dropEntry(e) {
 				<button onClick={ (ev)=>handleToolbarSelection(ev, 'edit') } className={ activeTool === 'edit' ? `active` : '' } data-zel="builder"><img src={ editIcon } alt="Edit Icon" data-zel="builder"/></button>
 				<button onClick={ (ev)=>handleToolbarSelection(ev, 'sort') } className={ activeTool === 'sort' ? `active` : '' } data-zel="builder"><img src={ sortIcon } alt="Sort Icon" data-zel="builder"/></button>
 				<button onClick={ (ev)=>handleToolbarSelection(ev, 'json') } className={ activeTool === 'json' ? `active` : '' } data-zel="builder"><h2 data-zel="builder">JSON</h2></button>
-				<button onClick={ (ev)=>handleToolbarSelection(ev, 'dig') } className={ activeTool === 'dig' ? `active` : '' } data-zel="builder"><img src={ compileIcon } alt="Compile Icon" data-zel="builder"/></button>
+				<button onClick={ (ev)=>handleToolbarSelection(ev, 'compile') } className={ activeTool === 'compile' ? `active` : '' } data-zel="builder"><img src={ compileIcon } alt="Compile Icon" data-zel="builder"/></button>
 				<button onClick={ (ev)=>handleToolbarSelection(ev, 'download') } data-zel="builder"><img src={ downloadIcon } alt="Download Icon" data-zel="builder"/></button>
 				
 			</div>
