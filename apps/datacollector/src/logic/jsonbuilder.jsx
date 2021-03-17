@@ -510,7 +510,7 @@ function dropEntry(e) {
 	}
 
 	const findMatch = () => {
-		console.log(prepObj)
+		// console.log(prepObj)
 		prepObj.forEach(e => {
 			if ( e.type === 'pair' && e.value ) {
 				e.match = [];
@@ -520,25 +520,50 @@ function dropEntry(e) {
 					
 					let regex = new RegExp(`(["'\`{].*|[^>][\\s\\w]*|)(?:` + escapedString + `)(.*["'\`}]|[\\s\\w]*[^<]|)`, 'gi')
 					let matches = c.rawComponent.match(regex);	// escape RegEx special characters
+					c.rawComponent.replace(regex, '<span style={{ color: black, backgroundColor: white }}>' + e.value + '</span>');
 					// (?:["']|)(?:Boka Bord)((?!\w).[\s\S])(.*\s+[^"']+)  -- selects reverse
 					// ^(?!["'])(?![^[:alpha:]])(?:boka bord)(?=[^[:alpha:]]\B)([\s]*?["']|)   --- selects with letters in the beginning
 					matches && e.match.push({ component, matches })
 					
 				})
 			}
-			
-		});
-		Object.values(_evilcook.components.collection).forEach(c => {
-			let component = `${ c.path }_${ c.name }`;
-			rawComponents.push(
+			// let vals = [];
+			Object.values(_evilcook.components.collection).forEach(c => {
+				let component = `${ c.path }_${ c.name }`;
+				let escapedString = e.value.replace(/(?=[-[\]{}()*+?.,\\^$|#])/g, '\\');
 
-				<pre key={ Date.now() } className={ `Raw-Component` } data-zel="builder">
-					<div className={ `Raw-Heading` } onClick={ openCode } data-zel="builder"><h2 data-zel="builder">{ component }</h2></div>
-					<h3 data-zel="builder">{ c.rawComponent }</h3>
-					
-				</pre>
-			);
+					let regex = new RegExp(`([^>][\\s\\w]*|)(?:` + escapedString + `)([\\s\\w]*[^<]|)`, 'gi');
+					let newC = c.rawComponent.replace(regex, '||,||');
+					let split = newC.split('||,||');
+					// vals.push(e.value)
+					// console.log(vals)
+					let mark = split.length > 1 ? split.map((m,i) => {
+						let el;
+						if ( split.length > i ) {
+
+							el = 
+							<>
+								{ m.replace(e.value, '') }
+								<span style={{ color: 'black', backgroundColor: [ split[1] ? 'white' : '' ] }}> { split[1] ? e.value : '' } </span>;
+							</>;
+						} else {
+							el = m;
+						}
+						
+						return el;
+					}) : c.rawComponent;
+				rawComponents.push(
+	
+					<pre key={ Date.now() } className={ `Raw-Component` } data-zel="builder">
+						<div className={ `Raw-Heading` } onClick={ openCode } data-zel="builder"><h2 data-zel="builder">{ component }</h2></div>
+						<h3 data-zel="builder">{ mark }</h3>
+						
+					</pre>
+				);
+				// console.log(c.rawComponent);
+			});
 		});
+		
 	}
 
 	function openCode(e) {
